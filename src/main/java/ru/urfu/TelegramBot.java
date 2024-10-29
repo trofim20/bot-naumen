@@ -15,11 +15,22 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final String telegramBotName;
 
-    public TelegramBot(String telegramBotName, String token) {
+    private final ReturningMessage returningMessage;
+    /**
+     * Конструктор TelegramBot
+     *
+     * @param telegramBotName имя бота
+     * @param token токен
+     * @param returningMessage объект, c помощью которого изменяется сообщение
+     */
+    public TelegramBot(String telegramBotName, String token,ReturningMessage returningMessage) {
         super(token);
         this.telegramBotName = telegramBotName;
+        this.returningMessage = returningMessage;
     }
-
+    /**
+     * Запуск бота
+     */
     public void start() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -29,14 +40,18 @@ public class TelegramBot extends TelegramLongPollingBot {
             throw new RuntimeException("Не удалось запустить телеграм бота", e);
         }
     }
-
+    /**
+     * Обрабатывает полученные сообщения
+     * @param update информация о новом сообщении
+     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
             Message updateMessage = update.getMessage();
             Long chatId = updateMessage.getChatId();
             String messageFromUser = updateMessage.getText();
-            // TODO обработайте сообщение от пользователя (messageFromUser)
+            String returnMessage = returningMessage.formatUserMessage(messageFromUser);
+            sendMessage(chatId.toString(), returnMessage);
         }
     }
 
@@ -56,7 +71,10 @@ public class TelegramBot extends TelegramLongPollingBot {
             System.err.println("Не удалось отправить сообщение. " + e.getMessage());
         }
     }
-
+    /**
+     * Возвращает имя бота
+     * @return имя бота
+     */
     @Override
     public String getBotUsername() {
         return telegramBotName;
