@@ -20,26 +20,28 @@
     </properties>
 
     <dependencies>
-        <!-- FIXME Тут есть уязвимость в транзитивной библиотеке, надо поправить (доп. задание) -->
+
         <dependency>
             <groupId>org.telegram</groupId>
             <artifactId>telegrambots</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>commons-codec</groupId>
-            <artifactId>commons-codec</artifactId>
-        </dependency>
-
-        <!-- FIXME В некоторых транзитивных библиотеках есть уязвимость, надо поправить (доп. задание) -->
-        <dependency>
             <groupId>com.discord4j</groupId>
             <artifactId>discord4j-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>io.projectreactor.netty</groupId>
-            <artifactId>reactor-netty-http</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
