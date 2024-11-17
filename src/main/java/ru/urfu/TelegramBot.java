@@ -15,11 +15,24 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private final String telegramBotName;
 
-    public TelegramBot(String telegramBotName, String token) {
+    private final HandlerMessage handlerMessage;
+
+    /**
+     * Конструктор TelegramBot
+     *
+     * @param telegramBotName имя бота
+     * @param token токен
+     * @param handlerMessage объект, c помощью которого изменяется сообщение
+     */
+    public TelegramBot(String telegramBotName, String token, HandlerMessage handlerMessage) {
         super(token);
         this.telegramBotName = telegramBotName;
+        this.handlerMessage = handlerMessage;
     }
 
+    /**
+     * Запуск бота
+     */
     public void start() {
         try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
@@ -36,13 +49,15 @@ public class TelegramBot extends TelegramLongPollingBot {
             Message updateMessage = update.getMessage();
             Long chatId = updateMessage.getChatId();
             String messageFromUser = updateMessage.getText();
-            // TODO обработайте сообщение от пользователя (messageFromUser)
+            String returnMessage = handlerMessage.handlingMessage(messageFromUser);
+            sendMessage(chatId.toString(), returnMessage);
         }
     }
 
     /**
      * Отправить сообщение
-     * @param chatId идентификатор чата
+     *
+     * @param chatId  идентификатор чата
      * @param message текст сообщения
      */
     public void sendMessage(String chatId, String message) {
@@ -57,6 +72,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
+    /**
+     * Возвращает имя бота
+     *
+     * @return имя бота
+     */
     @Override
     public String getBotUsername() {
         return telegramBotName;
