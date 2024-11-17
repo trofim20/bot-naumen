@@ -21,8 +21,8 @@ public class TelegramBot extends TelegramLongPollingBot {
      * Конструктор TelegramBot
      *
      * @param telegramBotName имя бота
-     * @param token           токен
-     * @param handlerMessage  объект, c помощью которого изменяется сообщение
+     * @param token токен
+     * @param handlerMessage объект, c помощью которого изменяется сообщение
      */
     public TelegramBot(String telegramBotName, String token, HandlerMessage handlerMessage) {
         super(token);
@@ -43,11 +43,6 @@ public class TelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    /**
-     * Обрабатывает полученные сообщения
-     *
-     * @param update информация о новом сообщении
-     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
